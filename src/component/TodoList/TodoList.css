@@ -1,0 +1,93 @@
+.todo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-top__title {
+  font-weight: normal;
+  margin: 4px auto;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.todo-top__title:hover {
+  opacity: 0.8;
+}
+
+.todo-top__btn {
+  border: 1px solid rgb(170, 26, 26);
+  border-radius: 45%;
+  background-color: rgb(170, 26, 26);
+  padding: 0 6px;
+  margin: 0 0 0 10px;
+  font-weight: bold;
+  font-size: 12px;
+  transition: opacity 0.4s;
+}
+
+.todo-top__btn:hover {
+  opacity: 0.5;
+}
+
+.todo-input {
+  color: black;
+  outline: 1px solid gray;
+  padding: 2px;
+}
+
+.todo-btn {
+  padding: 6px;
+  transition: opacity 0.2s;
+}
+
+.todo-btn:hover {
+  opacity: 0.6;
+}
+
+.todo-li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.todo-li:hover {
+  opacity: 0.5;
+}
+
+.todo-btn__delete {
+  padding: 1px;
+  margin: 4px;
+  border: 2px solid rgb(229, 34, 99);
+  border-radius: 5px;
+  transition: opacity 0.2s;
+}
+
+.todo-btn__delete:hover {
+  opacity: 0.6;
+}
+
+.error {
+  border: 2px solid red;
+}
+
+/* .active {
+  background-color: #fffacd;
+  color: black;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 2px 4px;
+} */
+
+.isDone {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.todo-filter {
+  color: black;
+  font-weight: bold;
+}

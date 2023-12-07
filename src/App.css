@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+/* .App {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  color: white;
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(black, gray);
+  min-height: 100vh;
+  height: inherit;
+  max-width: 1230px;
+  margin: 0 auto;
+}
+
+.App > div {
+  margin-right: 50px;
+}
+
+.new-todolist__block {
+  display: flex;
+  flex-direction: column;
+  color: wheat;
+  font-family: "Poppins";
+
+  padding: 4px;
+  margin: 0 auto;
+  max-width: 20%;
+  text-align: center;
+}
+
+.new-todolist__title {
+  font-weight: bold;
+  margin-bottom: 10px;
+} */
