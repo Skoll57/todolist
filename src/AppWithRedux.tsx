@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-// import { Routes, Route } from "react-router-dom";
-import { v4 } from "uuid";
 import TodoList, { TaskType } from "./component/TodoList/TodoList";
 import AddItemForm from "./component/AddItemForm/AddItemForm";
 
@@ -17,6 +16,22 @@ import { Container } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Paper } from "@mui/material";
 
+// AC
+import {
+  addTaskAC,
+  changeCheckBoxAC,
+  changeTaskTitleAC,
+  removeTaskAC,
+} from "./state/tasksReducer/tasks-reducer";
+import {
+  addTodolistAC,
+  changeTodolistFilterAC,
+  changeTodolistTitleAC,
+  removeTodolistAC,
+} from "./state/todoReducer/todolist-reducer";
+
+import { AppRootState } from "./state/store";
+
 // Type
 export type TaskFilterType = "all" | "active" | "completed";
 
@@ -30,103 +45,60 @@ export type TaskStateType = {
   [key: string]: Array<TaskType>;
 };
 
-const App: React.FC = () => {
-  // Unic ID for todolists
-  const idForTodolist1 = v4();
-  const idForTodolist2 = v4();
+const AppWithRedux: React.FC = () => {
+  console.log("App +");
 
-  // State
-  let [tasks, setTasks] = useState<TaskStateType>({
-    [idForTodolist1]: [
-      { id: v4(), title: "HTML & CSS", isDone: true },
-      { id: v4(), title: "JAVASCRIPT", isDone: true },
-      { id: v4(), title: "REACT", isDone: false },
-      { id: v4(), title: "REDUX", isDone: false },
-    ],
-    [idForTodolist2]: [
-      { id: v4(), title: "PHONE", isDone: false },
-      { id: v4(), title: "PC", isDone: true },
-      { id: v4(), title: "PS 5", isDone: false },
-      { id: v4(), title: "HEADPHONES", isDone: false },
-    ],
-  });
+  // Dispatch
+  const dispatch = useDispatch();
 
-  let [todolists, setTodolists] = useState<Array<TodoListType>>([
-    { id: idForTodolist1, title: "What to learn", filter: "all" },
-    { id: idForTodolist2, title: "What to buy", filter: "all" },
-  ]);
+  // State.Vetka
+  const todolists = useSelector<AppRootState, Array<TodoListType>>(
+    (state) => state.todolists
+  );
+  const tasks = useSelector<AppRootState, TaskStateType>(
+    (state) => state.tasks
+  );
 
   // CallBack Function
   // TASKS
   function removeTask(id: string, todolistID: string) {
-    let newTask = tasks[todolistID];
-    let filteredTasks = newTask.filter((t) => t.id !== id);
-    tasks[todolistID] = filteredTasks;
-    setTasks({ ...tasks });
+    dispatch(removeTaskAC(id, todolistID));
   }
 
   function addTask(title: string, todolistID: string) {
-    let taskCreate = { id: v4(), title: title, isDone: false };
-    let newTask = tasks[todolistID];
-    let newTasks = [taskCreate, ...newTask];
-    tasks[todolistID] = newTasks;
-    setTasks({ ...tasks });
+    const action = addTaskAC(title, todolistID);
+    dispatch(action);
   }
 
   function changeCheckbox(id: string, isDone: boolean, todolistID: string) {
-    // Достаю нужный массив task из объекта tasks
-    let newTask = tasks[todolistID];
-    // Ищу нужную task
-    let task = newTask.find((t) => t.id === id);
-    // Меняю свойство task, если она нашлась
-    if (task) {
-      task.isDone = isDone;
-      // Перерисовываю
-      setTasks({ ...tasks });
-    }
+    const action = changeCheckBoxAC(id, todolistID, isDone);
+    dispatch(action);
   }
 
   function changeTaskTitle(id: string, todolistID: string, newTitle: string) {
-    let newTask = tasks[todolistID];
-    let task = newTask.find((t) => t.id === id);
-    if (task) {
-      task.title = newTitle;
-      setTasks({ ...tasks });
-    }
+    const action = changeTaskTitleAC(id, todolistID, newTitle);
+    dispatch(action);
   }
 
   // TODO
   function changeFilter(value: TaskFilterType, todolistID: string) {
-    let todolist = todolists.find((tl) => tl.id === todolistID);
-    if (todolist) {
-      todolist.filter = value;
-      setTodolists([...todolists]);
-    }
+    const action = changeTodolistFilterAC(todolistID, value);
+    dispatch(action);
   }
 
   function removeTodolist(todolistID: string) {
-    let filteredTodolist = todolists.filter((tl) => tl.id !== todolistID);
-    setTodolists(filteredTodolist);
-
-    delete tasks[todolistID];
-    setTasks({ ...tasks });
+    const action = removeTodolistAC(todolistID);
+    dispatch(action);
   }
 
   function addTodolist(title: string) {
-    let todolist: TodoListType = { id: v4(), filter: "all", title: title };
-    setTodolists([...todolists, todolist]);
-    setTasks({
-      ...tasks,
-      [todolist.id]: [],
-    });
+    const action = addTodolistAC(title);
+    dispatch(action);
   }
 
   function changeTodolistTitle(id: string, newTitle: string) {
-    let todolist = todolists.find((tl) => tl.id === id);
-    if (todolist) {
-      todolist.title = newTitle;
-      setTodolists([...todolists]);
-    }
+    const action = changeTodolistTitleAC(id, newTitle);
+    dispatch(action);
   }
 
   return (
@@ -159,11 +131,7 @@ const App: React.FC = () => {
             <p className="new-todolist__title">Create new TodoList:</p>
             <AddItemForm addItem={addTodolist} />
             <section>
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Excepturi dolorem veritatis impedit suscipit nisi magni minus
-                repudiandae!
-              </p>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
             </section>
           </div>
         </Grid>
@@ -190,7 +158,8 @@ const App: React.FC = () => {
                 }
 
                 return (
-                  <Grid item>
+                  /* This is my KEY */
+                  <Grid item key={tl.id}>
                     <Paper style={{ padding: "10px", margin: "40px auto 0" }}>
                       <TodoList
                         key={tl.id}
@@ -218,4 +187,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default AppWithRedux;

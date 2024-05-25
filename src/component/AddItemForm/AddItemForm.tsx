@@ -29,7 +29,9 @@ type AddItemFormPropsType = {
   addItem: (title: string) => void;
 };
 
-const AddItemForm = (props: AddItemFormPropsType) => {
+const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+  console.log("AddItemForm +");
+
   // State
   const [error, setError] = useState<boolean>(false);
   const [titleInputValue, setTitleInputValue] = useState("");
@@ -53,7 +55,8 @@ const AddItemForm = (props: AddItemFormPropsType) => {
   }
 
   function onKeyPressHandler(e: KeyboardEvent<HTMLInputElement>) {
-    setError(false);
+    if (error !== false) setError(false);
+
     if (e.key === "Enter") {
       addTaskInside();
     }
@@ -61,6 +64,7 @@ const AddItemForm = (props: AddItemFormPropsType) => {
 
   return (
     <div className="container">
+      {/* Classical input  */}
       {/* <input
         className={error ? "error " + classForInput : classForInput}
         type="text"
@@ -69,6 +73,8 @@ const AddItemForm = (props: AddItemFormPropsType) => {
         onChange={onInputChangeHandler}
         onKeyPress={onKeyPressHandler}
       /> */}
+
+      {/* MUI input  */}
       <TextField
         className={error ? "error " + classForInput : classForInput}
         type="text"
@@ -93,6 +99,6 @@ const AddItemForm = (props: AddItemFormPropsType) => {
       {error && <InputTitleError />}
     </div>
   );
-};
+});
 
 export default AddItemForm;

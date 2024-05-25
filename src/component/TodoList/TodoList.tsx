@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from "react";
 import { TaskFilterType } from "../../App";
 import "./TodoList.css";
+
 import AddItemForm from "../AddItemForm/AddItemForm";
 import EditTitle from "../EditTitle/EditTitle";
 
@@ -31,6 +32,8 @@ export interface TaskType {
 }
 
 const TodoList = (props: TodoListProps) => {
+  console.log("Todolist +");
+
   // Function-callback
   function onChangeFilterCompleted() {
     props.changeFilter("completed", props.id);
@@ -55,7 +58,19 @@ const TodoList = (props: TodoListProps) => {
     <div className="todo-general">
       <div className="todo-top">
         <h3 className="todo-top__title">
-           <abbr title="Дважды кликните по заголовку для его изменения :)" style={{textDecoration: "none"}}><EditTitle title={props.title} onChangeTitle={changeTodolistTitle} /></abbr>
+          <abbr
+            title="Дважды кликните по заголовку для изменения :)"
+            style={{
+              textDecoration: "none",
+              textTransform: "uppercase",
+              fontWeight: "700",
+            }}
+          >
+            <EditTitle
+              title={props.title}
+              onChangeTitle={changeTodolistTitle}
+            />
+          </abbr>
           <IconButton
             aria-label="delete"
             color="error"
@@ -72,7 +87,7 @@ const TodoList = (props: TodoListProps) => {
       <ul>
         {props.tasks.map((t) => {
           function onRemoveTaskHandler() {
-            props.removeTask(t.id, props.id);
+            props.removeTask(props.id, t.id);
           }
           function onChangeCheckbox(e: ChangeEvent<HTMLInputElement>) {
             props.changeCheckbox(t.id, e.currentTarget.checked, props.id);

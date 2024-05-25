@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-/* .App {
+.App {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
   color: white;
   padding: 30px;
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(black, gray);
+  background: inherit;
   min-height: 100vh;
   height: inherit;
   max-width: 1230px;
@@ -33,4 +33,4 @@
 .new-todolist__title {
   font-weight: bold;
   margin-bottom: 10px;
-} */
+}
