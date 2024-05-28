@@ -91,9 +91,9 @@ export const tasksReducer = (
     }
 
     case "CHANGE-CHECKBOX": {
-      const stateCopy = { ...state };
+      // const stateCopy = { ...state };
 
-      let newTask = stateCopy[action.idForTodolist];
+      let newTask = state[action.idForTodolist];
 
       let task = newTask.find((t) => t.id === action.taskId);
 
@@ -101,13 +101,14 @@ export const tasksReducer = (
         task.isDone = action.isDone;
       }
 
-      return stateCopy;
+      state[action.idForTodolist] = [...newTask]; // !
+      return { ...state };
     }
 
     case "CHANGE-TASK-TITLE": {
-      const stateCopy = { ...state };
+      // const stateCopy = { ...state };
 
-      let newTask = stateCopy[action.idForTodolist];
+      let newTask = state[action.idForTodolist];
 
       let task = newTask.find((t) => t.id === action.taskId);
 
@@ -115,7 +116,8 @@ export const tasksReducer = (
         task.title = action.newTitle;
       }
 
-      return stateCopy;
+      state[action.idForTodolist] = [...newTask];
+      return { ...state };
     }
 
     case "ADD-TODOLIST": {

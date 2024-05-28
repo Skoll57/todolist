@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useCallback } from "react";
 import { TaskFilterType } from "../../App";
 import "./TodoList.css";
 
@@ -31,27 +31,44 @@ export interface TaskType {
   isDone: boolean;
 }
 
-const TodoList = (props: TodoListProps) => {
+const TodoList = React.memo((props: TodoListProps) => {
   console.log("Todolist +");
 
+  let tasks = props.tasks;
+
   // Function-callback
-  function onChangeFilterCompleted() {
+  const onChangeFilterCompleted = useCallback(() => {
     props.changeFilter("completed", props.id);
-  }
-  function onChangeFilterActive() {
+  }, []);
+  const onChangeFilterActive = useCallback(() => {
     props.changeFilter("active", props.id);
-  }
-  function onChangeFilterAll() {
+  }, []);
+  const onChangeFilterAll = useCallback(() => {
     props.changeFilter("all", props.id);
-  }
+  }, []);
+
   function removeTodolist() {
     props.removeTodolist(props.id);
   }
-  function addTask(title: string) {
+
+  const addTask = useCallback((title: string) => {
     props.addTask(title, props.id);
-  }
+  }, []);
+
   function changeTodolistTitle(newTitle: string) {
     props.changeTodolistTitle(props.id, newTitle);
+  }
+
+  // Filter
+  switch (props.filter) {
+    case "completed":
+      tasks = tasks.filter((t) => t.isDone === true);
+      break;
+    case "active":
+      tasks = tasks.filter((t) => t.isDone === false);
+      break;
+    default:
+      break;
   }
 
   return (
@@ -150,6 +167,6 @@ const TodoList = (props: TodoListProps) => {
       </div>
     </div>
   );
-};
+});
 
 export default TodoList;
